@@ -1,3 +1,5 @@
+package CRUD;
+
 import model.Category;
 import model.Option;
 import model.Product;
@@ -13,7 +15,7 @@ public class UpdateProduct {
     public void updateProduct(Scanner scanner, EntityManager manager) {
         System.out.println("Обновление товара");
         System.out.println("Введите ID товара для обновления:");
-        int productIdToUpdate = Integer.parseInt(scanner.nextLine());
+        Long productIdToUpdate = Long.parseLong(scanner.nextLine());
 
         Product product = manager.find(Product.class, productIdToUpdate);
         if (product != null) {
@@ -43,11 +45,10 @@ public class UpdateProduct {
                 product.setPrice(newPrice);
             }
 
-
             // Обновление характеристик товара
             Category category = product.getCategory();
             List<Option> options = category.getOptionsList();
-            for (Option optionValue : options){
+            for (Option optionValue : options) {
                 TypedQuery<Value> jpql = manager.createQuery("SELECT v FROM Value v WHERE v.product = :product AND v.option = :option", Value.class);
                 jpql.setParameter("product", product);
                 jpql.setParameter("option", optionValue);
@@ -57,11 +58,12 @@ public class UpdateProduct {
                     Value value = values.get(0);
                     System.out.println("Характеристика: " + optionValue.getName());
                     System.out.println("Текущее значение характеристики: " + value.getName());
-                    System.out.println("Введите новое значение характеристики: ");
+                    System.out.println("Введите новое значение характеристики (или нажмите Enter для пропуска): ");
                     String newValue = scanner.nextLine().trim();
-                    value.setName(newValue);
-
-                    manager.merge(value);
+                    if (!newValue.isEmpty()) {
+                        value.setName(newValue);
+                        manager.merge(value);
+                    }
                 } else {
                     System.out.println("Характеристика: " + optionValue.getName());
                     System.out.println("Для данного товара и характеристики нет значений в базе данных.");
@@ -81,17 +83,14 @@ public class UpdateProduct {
             }
             // Обновление товара
             manager.merge(product);
-
             // Завершение транзакции
             manager.getTransaction().commit();
             System.out.println("Товар успешно обновлен");
-
-
-
         } else {
             System.out.println("Товар с указанным ID не найден");
         }
     }
+
 }
 
 

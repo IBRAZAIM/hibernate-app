@@ -1,3 +1,7 @@
+import CRUD.CreateCategory;
+import CRUD.CreateProduct;
+import CRUD.DeleteProduct;
+import CRUD.UpdateProduct;
 import service.CategoryService;
 import service.ProductService;
 
@@ -76,22 +80,22 @@ public class Test {
                 case "14":
                     // Работа с категориями
                     categoryMenu();
-                    categoryService.categoryFunc();
+                    categoryService.categoryFunc(scanner, manager);
                     break;
                 case "15":
                     //Создание новой категории
                     CreateCategory createCategory = new CreateCategory();
                     createCategory.createCategory(scanner);
                     break;
-                case "16"://TODO доделать
-                   //UpdateProduct update = new UpdateProduct();
-                   //update.updateProduct(scanner, manager);
-                    System.out.println("В доработке...");
+                case "16":
+                   UpdateProduct update = new UpdateProduct();
+                   update.updateProduct(scanner, manager);
                    break;
                 case "0":
                     // Выход из программы
                     System.exit(0);
-
+                    break;
+                    //TODO доделать
             }
         }
     }
