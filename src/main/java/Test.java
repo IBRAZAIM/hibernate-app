@@ -4,6 +4,7 @@ import CRUD.DeleteProduct;
 import CRUD.UpdateProduct;
 import service.CategoryService;
 import service.ProductService;
+import service.ValuesService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -91,6 +92,9 @@ public class Test {
                    UpdateProduct update = new UpdateProduct();
                    update.updateProduct(scanner, manager);
                    break;
+                case "17":
+                    ValuesService valuesService = new ValuesService(manager);
+                    valuesService.discountByValue(scanner, manager);
                 case "0":
                     // Выход из программы
                     System.exit(0);
@@ -119,9 +123,10 @@ public class Test {
         System.out.println("11. Найти самый дорогой товар");
         System.out.println("12. Показать топ N товаров с самой высокой стоимостью");
         System.out.println("13. Предоставить скидку на товар по его id");
-        System.out.println("14.Работа с категориями");
-        System.out.println("15.Создать категорию");
-        System.out.println("16.Обновить продукт и его данные");
+        System.out.println("14. Работа с категориями");
+        System.out.println("15. Создать категорию");
+        System.out.println("16. Обновить продукт и его данные");
+        System.out.println("17. Предоставление скидки на товары с определенным значением");
         System.out.println("0. Выйти");
         System.out.println("-------------------------------------------------------------");
     }
